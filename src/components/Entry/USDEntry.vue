@@ -97,7 +97,7 @@ const submitRate = async () => {
 
 <style scoped>
 .page-container {
-  min-height: 100vh;
+  min-height: 50vh;
   background: linear-gradient(to bottom right, #f0f9ff, #ffffff);
   padding: 2rem 1rem;
   display: flex;

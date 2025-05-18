@@ -119,7 +119,7 @@ async function handleRegister() {
 <style scoped>
 .register-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 4vh auto;
   background: white;
   padding: 2rem;
   border-radius: 0.5rem;

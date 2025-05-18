@@ -38,7 +38,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-
+import { useRouter } from 'vue-router'
 
 
 const email = ref('')
@@ -88,11 +88,12 @@ const handleLogin = async () => {
 <style scoped>
 .login-container {
   max-width: 400px;
-  margin: 0 auto;
+  margin: 4vh auto;
   background: white;
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  
 }
 
 .title {

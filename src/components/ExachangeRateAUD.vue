@@ -1,7 +1,7 @@
 <template>
     <div class="page-container">
       <div class="content-box">
-        <h1 class="heading">💱 USD to LKR Exchange Rates</h1>
+        <h1 class="heading">💱 AUD to LKR Exchange Rates</h1>
   
         <!-- Date Picker -->
         <div class="date-picker">
@@ -19,7 +19,7 @@
           🔄 Loading exchange rate data...
         </div>
   
-        <!-- Data Content -->
+        <!-- Results -->
         <div v-else class="rate-section">
           <div class="rate-cards">
             <div class="card blue-card">
@@ -39,7 +39,7 @@
             </div>
           </div>
   
-          <!-- Rates Table -->
+          <!-- Table -->
           <div class="rates-table-wrapper">
             <h2 class="table-heading">📈 Last 7 Days Rates</h2>
             <table class="rates-table">
@@ -61,23 +61,12 @@
           </div>
         </div>
       </div>
-      
     </div>
-    <aud/>
-    <cad/>
-    <gbs/>
-
-
-    
-
   </template>
   
   <script setup>
   import { ref, onMounted } from 'vue'
   import axios from 'axios'
-  import aud from './ExachangeRateAUD.vue'
-  import cad from './ExachangeRateCAD.vue'
-  import gbs from './ExachangeRateGBS.vue'
   
   const selectedDate = ref(new Date().toISOString().slice(0, 10))
   const rates = ref([])
@@ -92,19 +81,19 @@
       const endDate = selectedDate.value
   
       const [ratesRes, currentRateRes] = await Promise.all([
-        axios.get(`/api/exchange-rate/last-7-days?end_date=${endDate}`),
-        axios.get(`/api/exchange-rate/usd-lkr/by-date?date=${endDate}`).catch(err => {
-          if (
-            err.response &&
-            err.response.data &&
-            err.response.data.error === 'Exchange rate not found for the specified date'
-          ) {
-            currentRate.value = null
-            return null
-          } else {
-            throw err
-          }
-        })
+        axios.get(`/api/aud-rate/last-7-days?end_date=${endDate}`),
+        axios
+          .get(`/api/aud-rate/by-date?date=${endDate}`)
+          .catch(err => {
+            if (
+              err.response?.data?.error === 'Exchange rate not found for the specified date'
+            ) {
+              currentRate.value = null
+              return null
+            } else {
+              throw err
+            }
+          })
       ])
   
       rates.value = ratesRes.data.rates
