@@ -12,11 +12,26 @@
             View Rates
           </button>
           <button 
-            @click="activeView = 'entry'"
+            @click="activeView = 'login'"
             class="nav-button"
-            :class="{ active: activeView === 'entry' }"
+            :class="{ active: activeView === 'login' }"
           >
-            Enter Rate
+            Login 
+          </button>
+
+          <button 
+            @click="activeView = 'register'"
+            class="nav-button"
+            :class="{ active: activeView === 'register' }"
+          >
+            Register
+          </button>
+          <button 
+            @click="activeView = 'view'"
+            class="nav-button"
+            :class="{ active: activeView === 'view' }"
+          >
+            RateEntry
           </button>
         </div>
       </div>
@@ -25,7 +40,9 @@
     <main class="main-content">
       <transition name="fade" mode="out-in">
         <RatesView v-if="activeView === 'rates'" />
-        <RateEntryView v-else />
+        <LoginView v-else-if="activeView === 'login'" />
+        <RegisterView v-else-if="activeView === 'register'" />
+        <RateEntryView v-else-if="activeView === 'view'" />
       </transition>
     </main>
   </div>
@@ -34,12 +51,16 @@
 <script>
 import { ref } from 'vue'
 import RatesView from './components/ExchangeRateViewer.vue'
+import LoginView from './components/LoginView.vue'
+import RegisterView from './components/RegisterView.vue'
 import RateEntryView from './components/ExchangeRateEntry.vue'
 
 export default {
   name: 'App',
   components: {
     RatesView,
+    LoginView,
+    RegisterView,
     RateEntryView
   },
   setup() {
@@ -48,6 +69,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style scoped>
 .app-container {
