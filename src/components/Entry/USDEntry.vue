@@ -85,6 +85,16 @@ const submitRate = async () => {
     })
     message.value = response.data.message || '✅ Rate saved successfully!'
     messageClass.value = 'message-success'
+    
+    // Clear form fields after successful submission
+    form.value.rate = null
+    form.value.date = today
+    
+    // Optional: Clear success message after 3 seconds
+    setTimeout(() => {
+      message.value = ''
+    }, 3000)
+    
   } catch (error) {
     console.error(error)
     message.value = error.response?.data?.error || '❌ Failed to save rate.'

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <h2 class="title">User Login</h2>
-    
+        
     <form class="login-form" @submit.prevent="handleLogin">
       <div class="form-group">
         <label for="email">Email</label>
@@ -13,7 +13,7 @@
           required
         />
       </div>
-      
+            
       <div class="form-group">
         <label for="password">Password</label>
         <input
@@ -24,12 +24,13 @@
           required
         />
       </div>
-      
+                   
       <button type="submit" class="btn-login" :disabled="isLoading">
         {{ isLoading ? 'Logging in...' : 'Login' }}
       </button>
+        
     </form>
-    
+        
     <p class="error-message" v-if="error">{{ error }}</p>
     <p class="success-message" v-if="success">{{ success }}</p>
   </div>
@@ -40,6 +41,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
@@ -51,28 +53,27 @@ const handleLogin = async () => {
   error.value = ''
   success.value = ''
   isLoading.value = true
-  
+    
   try {
     const response = await axios.post('/api/login', {
       email: email.value,
       password: password.value,
     })
-    
-    success.value = response.data.message // "Login successful"
+
+    success.value = response.data.message // e.g. "Login successful"
     console.log('User Info:', response.data.user)
-    
-    // Store user data in localStorage or a store if needed
+
     localStorage.setItem('user', JSON.stringify(response.data.user))
     localStorage.setItem('isLoggedIn', 'true')
-    
-   
-    
-    // Optional: Clear form after successful login
+
     email.value = ''
     password.value = ''
-    
 
-    
+    // Wait 2 seconds then redirect
+    setTimeout(() => {
+      router.push('/welcome')  // 👈 replace with your actual route
+    }, 2000)
+
   } catch (err) {
     if (err.response && err.response.status === 401) {
       error.value = 'Invalid email or password'
@@ -83,6 +84,7 @@ const handleLogin = async () => {
     isLoading.value = false
   }
 }
+
 </script>
 
 <style scoped>
@@ -93,7 +95,6 @@ const handleLogin = async () => {
   padding: 2rem;
   border-radius: 0.5rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  
 }
 
 .title {
